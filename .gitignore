@@ -1,0 +1,38 @@
+# Python & Environment
+venv/
+ENV/
+env/
+.env
+.env.local
+config.json
+
+# Databases & Local Storage
+*.db
+*.sqlite
+*.sqlite3
+datanexus_local.db
+postgres_data/
+milvus_data/
+
+# Ingestion Directories
+incoming/*
+!incoming/.gitkeep
+quarantine/*
+!quarantine/.gitkeep
+
+# Python Caches & Build Outputs
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.coverage
+htmlcov/
+build/
+dist/
+*.egg-info/
+
+# IDEs & System Files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

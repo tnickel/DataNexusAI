@@ -1,0 +1,88 @@
+{
+  "annotations": {
+    "list": []
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 1,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "id": 1,
+      "title": "Ingestion Durchsatz (Records / Sekunde)",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 0 },
+      "targets": [
+        {
+          "datasource": "Prometheus",
+          "expr": "rate(datanexus_ingested_records_total[5m])",
+          "legendFormat": "Ingestion Rate"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Quarantäne Quote (%)",
+      "type": "stat",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 0 },
+      "targets": [
+        {
+          "datasource": "Prometheus",
+          "expr": "datanexus_quarantine_rate_percentage",
+          "legendFormat": "Quarantäne Rate"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "green", "value": null },
+              { "color": "yellow", "value": 5.0 },
+              { "color": "red", "value": 10.0 }
+            ]
+          },
+          "unit": "percent"
+        }
+      }
+    },
+    {
+      "id": 3,
+      "title": "Agenten Skill Latenz (Text2SQL vs RAG Qwen)",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 8 },
+      "targets": [
+        {
+          "datasource": "Prometheus",
+          "expr": "histogram_quantile(0.95, sum(rate(datanexus_agent_skill_execution_duration_seconds_bucket[5m])) by (le, skill_name))",
+          "legendFormat": "{{skill_name}} p95"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "System Health Status Overview",
+      "type": "stat",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 8 },
+      "targets": [
+        {
+          "datasource": "Prometheus",
+          "expr": "datanexus_health_status",
+          "legendFormat": "Health Status"
+        }
+      ]
+    }
+  ],
+  "refresh": "5s",
+  "schemaVersion": 38,
+  "style": "dark",
+  "tags": ["datanexus", "otc", "ingestion", "rag", "agents"],
+  "time": {
+    "from": "now-6h",
+    "to": "now"
+  },
+  "title": "DataNexus AI - Enterprise Operation & Health Dashboard",
+  "version": 1
+}
